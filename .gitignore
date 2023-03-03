@@ -1,3 +1,7 @@
 test*
 *.cpython
 *__pycache__*
+xml2xopp.py
+xopp2xml.py
+*.xml
+.obsidian
