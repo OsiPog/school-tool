@@ -48,7 +48,7 @@ def hex_color_to_tuple(hex_: str, alpha: int=None):
     else: return (r, g, b)
 
 def imgs2longimg(png_paths: list[str], output_path: str, max_width: int=None, 
-                max_height: int=None, background: str=None):
+                max_height: int=None, background: str=None, bypass_not_enough=False):
     """Connecting multiple images to one long image.
 
     Args:
@@ -63,7 +63,7 @@ def imgs2longimg(png_paths: list[str], output_path: str, max_width: int=None,
         WrongColourFormat: If anything else but '#FFFFFF' is used as background.
     """
 
-    if len(png_paths) < 2: raise OnlyNotEnoughImagesError(
+    if (len(png_paths) < 2) and not bypass_not_enough: raise OnlyNotEnoughImagesError(
         OnlyNotEnoughImagesError.TEXT)
 
 
@@ -113,7 +113,7 @@ def imgs2longimg(png_paths: list[str], output_path: str, max_width: int=None,
     # scaling long image according to max_height or max_width
     if not max_width: max_width = long_image.size[0]
     if not max_height: max_height = long_image.size[1]
-    long_image.thumbnail((max_width, max_height), Image.Resampling.LANCZOS)
+    long_image.thumbnail((max_width, max_height))
 
     # saving the file to the specified file
     long_image.save(output_path)
