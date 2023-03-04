@@ -5,3 +5,5 @@ xml2xopp.py
 xopp2xml.py
 *.xml
 .obsidian
+options.json
+run.sh
