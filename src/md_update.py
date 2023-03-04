@@ -12,7 +12,8 @@ from src.tools.pil2xopp import pil2xopp
 
 REGEX_PATH_IN_IMG_TAG = r"((?<=\<img.+src=\").+?(?=\"))|((?<=\!\[?.+\]\().+?(?=\)))"
 REGEX_WHOLE_IMAGE_TAG = r"(\<img.*(?:(?:\/\s*\>)|(?:\<\/img\>)))|(\!\[.*\]\(.*\))"
-        
+
+MARKDOWN_TAG = '''[Open XOPP]({}/{}.xopp)<br>![SCHOOLTOOL]({}/preview/{}.png)'''
 
 def find_and_convert(markdown_filepath):
     # needed later
@@ -105,8 +106,9 @@ def import_imgs_as_xopp(images, xopp_path, markdown_filepath):
     update_preview(xopp_path)
     
     # return the custom tag for the markdown file
-    return f'''[Open XOPP]({relative_md_file_dir}/{filename}.xopp)<br>\
-![SCHOOLTOOL]({relative_md_file_dir}/preview/{filename}.png)'''
+    return MARKDOWN_TAG.format(
+    relative_md_file_dir, filename,
+    relative_md_file_dir, filename)
 
 def import_pdf(absolute_pdf_path, markdown_filepath):
     # needed later
@@ -167,7 +169,11 @@ def update_preview(xopp_path):
     # delete the temp dir
     shutil.rmtree(temp_dir)
     
-    # return the path of the preview image for convenience
-    return preview_path
+    # return the image tag once again for convenience
+    relative_md_file_dir = xopp_path.split("/")[-2]
+
+    return MARKDOWN_TAG.format(
+    relative_md_file_dir, filename,
+    relative_md_file_dir, filename)
         
         
