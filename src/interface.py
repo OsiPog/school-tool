@@ -41,7 +41,8 @@ class Interface:
         if self.options["md_dir"]: 
             print(self.options["md_dir"])
             self.setup_subject_menu()
-            self.selected_subject = self.subjects[0]
+            if self.options["selected"] is not None:
+                self.select_subject(self.options["selected"])
 
         # Buttons
         self.frame = Frame(self.tk)
@@ -64,9 +65,7 @@ class Interface:
                 self.subjects.append(name)
 
                 def select_subject():
-                    self.selected_subject = name
-                    self.clicked_on_subject_name(name)
-                    self.tk.title(name)
+                    self.select_subject(name)
 
                 self.subject_menu.add_command(label=name, command=select_subject)
         
@@ -99,9 +98,10 @@ class Interface:
         show_method(title, message)
 
 
-    # please override
-    def clicked_on_subject_name(self, name):
-        pass
+    def select_subject(self, name):
+        self.selected_subject = name
+        self.tk.title(name)
+        self.options["selected"] = name
 
     def to_clipboard(self, text):
         self.tk.clipboard_clear()

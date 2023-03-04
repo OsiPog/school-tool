@@ -31,7 +31,8 @@ def update_markdown_file():
 
 # loading options
 options = {
-    "md_dir": None
+    "md_dir": None,
+    "selected": None
 }
 try:
     with open("options.json", "r") as file:
