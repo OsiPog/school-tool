@@ -23,6 +23,11 @@ def import_pdf_menu():
     if md_filepath and pdf_filepath:
         interface.to_clipboard(import_pdf(pdf_filepath, md_filepath))
 
+def update_markdown_file():
+    md_filepath = get_md_file()
+    if md_filepath:
+        find_and_convert(md_filepath)
+
 
 # loading options
 options = {
@@ -43,6 +48,9 @@ def main():
 
     # Import PDF menu entry
     interface.import_menu.add_command(label="PDF", command=import_pdf_menu)
+
+    # Update command
+    interface.update_button.configure(command=update_markdown_file)
 
     interface.tk.mainloop()
 
