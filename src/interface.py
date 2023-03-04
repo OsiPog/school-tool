@@ -1,8 +1,9 @@
 from tkinter import *
 from tkinter import messagebox
 import tkinter.filedialog as filedialog
-
 import os
+
+from src.path import Path
 
 class Interface:
     def __init__(self, options, window_size=(500, 500), title="App"): 
@@ -27,7 +28,7 @@ class Interface:
         def md_dir_update():
             new_dir = self.open_file_dialog(folder=True)
             if new_dir:
-                options["md_dir"] = new_dir
+                options["md_dir"] = Path.format(new_dir)
                 self.alert("Restart required")
         self.settings_menu.add_command(label="Markdown Dir", command=md_dir_update)
 
@@ -50,6 +51,12 @@ class Interface:
 
         self.update_button = Button(self.frame, text="Update Subject")
         self.update_button.grid(row=0)
+
+        self.import_portrait_button = Button(self.frame, text="New Graph Sheet (Portrait)")
+        self.import_portrait_button.grid(row=1)
+
+        self.import_landscape_button = Button(self.frame, text="New Graph Sheet (Landscape)")
+        self.import_landscape_button.grid(row=2)
 
 
 
