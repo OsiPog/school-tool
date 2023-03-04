@@ -53,7 +53,14 @@ def find_and_convert(markdown_filepath):
                     md_file_dir,
                     Path.get_file(image_path).split(".")[0] + ".xopp"
                 )
-                update_preview(xopp_path)
+
+                # Update only if image_path file and xopp_path file have a big
+                # difference at modified date
+                m_date_img = round(os.stat(image_path).st_mtime)
+                m_date_xopp = round(os.stat(xopp_path).st_mtime)
+
+                if m_date_xopp - m_date_img > 10:
+                    update_preview(xopp_path)
                 continue
             
             # Make up the xopp path
