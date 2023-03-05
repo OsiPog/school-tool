@@ -2,6 +2,7 @@ from tkinter import *
 from tkinter import messagebox
 import tkinter.filedialog as filedialog
 import os
+import subprocess
 import random
 
 from src.path import Path
@@ -59,20 +60,28 @@ class Interface:
         if self.options["md_dir"]: 
             self.setup_subject_menu()
             if self.options["selected"] is not None:
-                self.select_subject(self.options["selected"])
+                self.change_subject(self.options["selected"])
 
         # Buttons
         self.frame = Frame(self.tk)
         self.frame.grid(row=0)
 
+        # Open in Typora
+        self.open_typora_button = Button(self.frame, text="Open in Typora")
+        self.open_typora_button.grid(row=0)
+        self.open_typora_button.configure(command=self.open_typora)
+
+        # Update Subject
         self.update_button = Button(self.frame, text="Update Subject")
-        self.update_button.grid(row=0)
+        self.update_button.grid(row=1)
 
+        # New Graph Sheet (Portrait)
         self.import_portrait_button = Button(self.frame, text="New Graph Sheet (Portrait)")
-        self.import_portrait_button.grid(row=1)
+        self.import_portrait_button.grid(row=2)
 
+        # New Graph Sheet (Landscape)
         self.import_landscape_button = Button(self.frame, text="New Graph Sheet (Landscape)")
-        self.import_landscape_button.grid(row=2)
+        self.import_landscape_button.grid(row=3)
 
 
 
@@ -89,7 +98,7 @@ class Interface:
                 
                 self.subject_menu.add_command(
                     label=name, 
-                    command=func(f"Interface.select_subject(Interface.instances[0],'{name}')")
+                    command=func(f"Interface.change_subject(Interface.instances[0],'{name}')")
                 )
         
         self.menu_bar.add_cascade(label="Open", menu=self.subject_menu)
@@ -120,8 +129,12 @@ class Interface:
         show_method = getattr(messagebox, 'show{}'.format(kind))
         show_method(title, message)
 
+    def open_typora(self):
+        if not self.selected_subject: return
+        md_path = Path.join(self.options["md_dir"], self.selected_subject + ".md")
+        subprocess.Popen(["typora",md_path])
 
-    def select_subject(self, name):
+    def change_subject(self, name):
         self.selected_subject = name
         self.tk.title(name)
         self.options["selected"] = name
