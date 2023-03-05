@@ -97,6 +97,9 @@ def import_blank_landscape():
 interface = Interface(options, window_size=(200,200), title="SchoolTool")
 
 def main():
+    # load options
+    load_options()
+
     # window closing event
     interface.tk.protocol("WM_DELETE_WINDOW", on_exit)
 
