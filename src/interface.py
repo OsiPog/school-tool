@@ -2,11 +2,28 @@ from tkinter import *
 from tkinter import messagebox
 import tkinter.filedialog as filedialog
 import os
+import random
 
 from src.path import Path
 
+def func(function_call): #because lambda doesnt want to work
+    nameless_function = []
+
+    name = "_" + str(random.randint(0,9999999))
+
+    exec('''
+def {}():
+    {}
+nameless_function.append({})
+        '''.format(name,function_call,name))
+    return nameless_function[0]
+
 class Interface:
-    def __init__(self, options, window_size=(500, 500), title="App"): 
+    instances = []
+
+    def __init__(self, options, window_size=(500, 500), title="App"):
+        Interface.instances.append(self)
+
         self.options = options
 
         self.tk = Tk()
@@ -40,7 +57,6 @@ class Interface:
         self.subjects = []
         self.selected_subject = None
         if self.options["md_dir"]: 
-            print(self.options["md_dir"])
             self.setup_subject_menu()
             if self.options["selected"] is not None:
                 self.select_subject(self.options["selected"])
@@ -74,7 +90,10 @@ class Interface:
                 def select_subject():
                     self.select_subject(name)
 
-                self.subject_menu.add_command(label=name, command=select_subject)
+                self.subject_menu.add_command(
+                    label=name, 
+                    command=func(f"Interface.select_subject(Interface.instances[0],'{name}')")
+                )
         
         self.menu_bar.add_cascade(label="Open", menu=self.subject_menu)
 
