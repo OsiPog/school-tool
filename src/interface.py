@@ -11,11 +11,11 @@ def func(function_call): #because lambda doesnt want to work
 
     name = "_" + str(random.randint(0,9999999))
 
-    exec('''
-def {}():
-    {}
-nameless_function.append({})
-        '''.format(name,function_call,name))
+    exec(f'''
+def {name}():
+    {function_call}
+nameless_function.append({name})''')
+
     return nameless_function[0]
 
 class Interface:
@@ -86,10 +86,7 @@ class Interface:
             if file.split(".")[-1] == "md":
                 name = file.split(".")[0]
                 self.subjects.append(name)
-
-                def select_subject():
-                    self.select_subject(name)
-
+                
                 self.subject_menu.add_command(
                     label=name, 
                     command=func(f"Interface.select_subject(Interface.instances[0],'{name}')")
