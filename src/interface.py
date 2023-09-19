@@ -43,7 +43,6 @@ class Interface:
         # Settings menu
         self.settings_menu = Menu(self.menu_bar, tearoff=0)
         self.menu_bar.add_cascade(label="Settings", menu=self.settings_menu)
-
         # change the markdown directory
         def md_dir_update():
             new_dir = self.open_file_dialog(folder=True)
@@ -84,6 +83,11 @@ class Interface:
         # New Graph Sheet (Landscape)
         self.import_landscape_button = Button(self.frame, text="New Graph Sheet (Landscape)")
         self.import_landscape_button.grid(row=3)
+
+        # restart button
+        self.restart_button = Button(self.frame, text="Restart SchoolTool")
+        self.restart_button.grid(row=5)
+        self.restart_button.configure(command=self.restart)
 
 
 
@@ -152,5 +156,5 @@ class Interface:
 
     def restart(self):
         for command in self.restart_commands: command()
-        subprocess.Popen(["python", "src/restart.py"])
+        subprocess.Popen(["python", "SchoolTool.py"])
         exit()
