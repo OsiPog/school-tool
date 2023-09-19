@@ -17,13 +17,6 @@ def get_md_file_dir():
     if interface.selected_subject is None: return
     return Path.join(options["md_dir"], interface.selected_subject)
 
-# Load and save options
-default_options = {
-    "md_dir": None,
-    "selected": None
-}
-options = default_options.copy()
-
 def save_options():
     with open("options.json", "w") as file:
         json.dump(options, file)
@@ -94,9 +87,15 @@ def import_blank_landscape():
     import_blank("landscape")
 
 # load options before interface init
+default_options = {
+    "md_dir": None,
+    "selected": None
+}
+options = default_options.copy()
+
 load_options()
 
-interface = Interface(options, window_size=(200,200), title="SchoolTool")
+interface = Interface(options, window_size=(300,300), title="SchoolTool")
 
 def main():
     # window closing event
