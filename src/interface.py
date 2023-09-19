@@ -105,12 +105,14 @@ class Interface:
         
         self.menu_bar.add_cascade(label="Open", menu=self.subject_menu)
 
-    def open_file_dialog(self,folder=False, filetypes=(("All Files", "*.*"),)):
+    def open_file_dialog(self,folder=False, filetypes=(("All Files", "*.*"),), initialdir=None):
+        if initialdir is None: initialdir = self.options["md_dir"]
+
         path = None
         if folder:
-            path = filedialog.askdirectory()
+            path = filedialog.askdirectory(initialdir=initialdir)
         else:
-            path = filedialog.askopenfilename(filetypes=filetypes)
+            path = filedialog.askopenfilename(filetypes=filetypes,initialdir=initialdir)
 
         # test path for file or folder
         try:
