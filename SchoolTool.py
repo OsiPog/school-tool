@@ -2,6 +2,7 @@
 import json
 import random
 import shutil
+import subprocess
 
 # Modules
 from src.path import Path
@@ -100,6 +101,9 @@ interface = Interface(options, window_size=(300,300), title="SchoolTool")
 def main():
     # window closing event
     interface.tk.protocol("WM_DELETE_WINDOW", on_exit)
+
+    # on restart
+    interface.add_restart_command(save_options)
 
     # Import PDF menu entry
     interface.import_menu.add_command(label="PDF", command=import_pdf_menu)

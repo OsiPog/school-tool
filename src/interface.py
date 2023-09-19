@@ -25,6 +25,8 @@ class Interface:
     def __init__(self, options, window_size=(500, 500), title="App"):
         Interface.instances.append(self)
 
+        self.restart_commands = []
+
         self.options = options
 
         self.tk = Tk()
@@ -47,7 +49,7 @@ class Interface:
             new_dir = self.open_file_dialog(folder=True)
             if new_dir:
                 options["md_dir"] = Path.format(new_dir)
-                self.alert("Restart required")
+                self.restart()
         self.settings_menu.add_command(label="Markdown Dir", command=md_dir_update)
 
         # Import menu
@@ -142,3 +144,11 @@ class Interface:
     def to_clipboard(self, text):
         self.tk.clipboard_clear()
         self.tk.clipboard_append(text)
+
+    def add_restart_command(self, func):
+        self.restart_commands.append(func)
+
+    def restart(self):
+        for command in self.restart_commands: command()
+        subprocess.Popen(["python", "src/restart.py"])
+        exit()
