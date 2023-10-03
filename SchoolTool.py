@@ -96,7 +96,7 @@ options = default_options.copy()
 
 load_options()
 
-interface = Interface(options, window_size=(300,300), title="SchoolTool")
+interface = Interface(options, window_size=(500,500), title="SchoolTool")
 
 def main():
     # window closing event
