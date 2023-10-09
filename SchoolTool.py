@@ -3,6 +3,7 @@ import json
 import random
 import shutil
 import subprocess
+import os
 
 # Modules
 from src.path import Path
@@ -16,7 +17,9 @@ def get_md_file():
 
 def get_md_file_dir():
     if interface.selected_subject is None: return
-    return Path.join(options["md_dir"], interface.selected_subject)
+    path = Path.join(options["md_dir"], interface.selected_subject)
+    os.makedirs(path, exist_ok=True)
+    return path
 
 def save_options():
     with open("options.json", "w") as file:
